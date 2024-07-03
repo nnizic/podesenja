@@ -1,0 +1,2 @@
+# podesenja
+podešenja za rad
