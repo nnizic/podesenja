@@ -19,7 +19,7 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'farfanoide/vim-kivy'
 Plugin 'ycm-core/YouCompleteMe'
 Plugin 'nvie/vim-flake8'
-" Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'cocopon/iceberg.vim'
@@ -47,7 +47,13 @@ set background=dark
 colorscheme iceberg
 
 " show line numbers
-set number
+" hybrid line numbers
+set number relativenumber
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
 
 " set tabs to have 4 spaces
 set ts=4
@@ -85,8 +91,8 @@ let g:vim_vue_plugin_config = {
       \},
       \'full_syntax': [],
       \'initial_indent': [],
-      \'attribute': 0,
-      \'keyword': 0,
+      \'attribute': 1,
+      \'keyword': 1,
       \'foldexpr': 0,
       \'debug': 0,
       \}
@@ -132,6 +138,9 @@ autocmd filetype javascript setlocal shiftwidth=2 tabstop=2
 
 "Cpp
 autocmd filetype cpp nnoremap <F5> <Esc>:w<CR>:! clear;g++ % -o %< &&./%< <CR>
+
+"css
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 
 "Start-Stop LiveServer
 nmap <F2> :StartBrowserSync <CR>
