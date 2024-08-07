@@ -19,9 +19,8 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'farfanoide/vim-kivy'
 Plugin 'ycm-core/YouCompleteMe'
 Plugin 'nvie/vim-flake8'
-Plugin 'vim-airline/vim-airline'
+" Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'vim-syntastic/syntastic'
 Plugin 'cocopon/iceberg.vim'
 Plugin 'prettier/vim-prettier'
 Plugin 'bfrg/vim-cpp-modern'
@@ -29,7 +28,10 @@ Plugin 'wolandark/vim-live-server.git'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'fatih/vim-go'
 Plugin 'leafOfTree/vim-vue-plugin'
+Plugin 'mattn/emmet-vim'
 Plugin 'jupyter-vim/jupyter-vim'
+Plugin 'ap/vim-css-color'
+Plugin 'tpope/vim-fugitive'
 " add all your plugins here (note older versions of Vundle
 " used Bundle instead of Plugin)
 
@@ -107,7 +109,8 @@ let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'],
             \ 'cpp': ['prettier', 'astyle'],
             \ 'vue': ['prettier', 'eslint'],}
 let g:ale_fix_on_save = 1
-
+" redefine the trigger key
+let g:user_emmet_leader_key=','
 " file browser
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 nnoremap <C-n> :NERDTreeToggle<CR>
