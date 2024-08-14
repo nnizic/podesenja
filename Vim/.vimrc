@@ -19,7 +19,7 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'farfanoide/vim-kivy'
 Plugin 'ycm-core/YouCompleteMe'
 Plugin 'nvie/vim-flake8'
-" Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'cocopon/iceberg.vim'
 Plugin 'prettier/vim-prettier'
@@ -66,6 +66,15 @@ set autoindent
 " intelligent indentation for C
 set smartindent
 
+" Search down in subolders
+" Provides tab-completion for all file-related tasks
+" fuzzyfind
+set path+=**
+
+" Display all matching files when tabcomplete
+set wildmenu
+
+
 " expand tabs into spaces
 set expandtab
 
@@ -77,6 +86,11 @@ set cursorline
 
 " show the matching part of the pair for [] {} and ()
 set showmatch
+
+" boilerplate for vue files(snippet)
+nnoremap vue, :-1read $HOME/.vim/.boilerplate.vue<CR>5jwe4l
+
+
 
 " enable all Python syntax highlighting features
 let python_highlight_all = 1
