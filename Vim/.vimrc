@@ -17,7 +17,8 @@ Plugin 'dense-analysis/ale'
 Plugin 'alvan/vim-closetag'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'farfanoide/vim-kivy'
-Plugin 'ycm-core/YouCompleteMe'
+Plugin 'prabirshrestha/vim-lsp'
+Plugin 'mattn/vim-lsp-settings'
 Plugin 'nvie/vim-flake8'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -141,23 +142,25 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" You Complete Me
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-let g:ymc_python_binary_path = 'python'
 " Python
 autocmd filetype python nnoremap <F5> <Esc>:w<CR>:! clear;python %<CR>
 
 " Javascript
 autocmd filetype javascript nnoremap <F5> <Esc>:w<CR>:! clear;node %<CR>
-autocmd filetype javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd filetype javascript setlocal shiftwidth=2 tabstop=2
 
 "Cpp
 autocmd filetype cpp nnoremap <F5> <Esc>:w<CR>:! clear;g++ % -o %< &&./%< <CR>
 
-"css
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+"omnifunc_lsp
+function! s:on_lsp_buffer_enabled() abort
+    set omnifunc=lsp#complete
+endfunction
+
+augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 
 "Start-Stop LiveServer
 nmap <F2> :StartBrowserSync <CR>
