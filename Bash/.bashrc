@@ -28,3 +28,7 @@ export PS1='\[\033[0m\][\[\033[1;34m\]\u@\h \[\033[36m\]\W\[\033[1;35m\]$(__git_
 export LS_OPTIONS='--color=auto'
 eval "$(dircolors -b)"
 alias ls='ls $LS_OPTIONS'
+
+# command line file completion
+# git clone https://github.com/pindexis/qfc $HOME/.qfc
+[[ -s "$HOME/.qfc/bin/qfc.sh" ]] && source "$HOME/.qfc/bin/qfc.sh"
