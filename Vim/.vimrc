@@ -31,8 +31,8 @@ Plugin 'fatih/vim-go'
 Plugin 'leafOfTree/vim-vue-plugin'
 Plugin 'mattn/emmet-vim'
 Plugin 'jupyter-vim/jupyter-vim'
-Plugin 'ap/vim-css-color'
 Plugin 'tpope/vim-fugitive'
+Plugin 'ap/vim-css-color'
 " add all your plugins here (note older versions of Vundle
 " used Bundle instead of Plugin)
 
@@ -91,6 +91,10 @@ set showmatch
 " boilerplate for vue files(snippet)
 nnoremap vue, :-1read $HOME/.vim/.boilerplate.vue<CR>5jwe4l
 
+" to enable full Vue support via vim-lsp
+let g:lsp_settings_filetype_vue = ['typescript-language-server', 'volar-server']
+let g:lsp_settings = { 'vscode-css-languageserver': {'cmd':['vscode-css-languageserver']}}
+let g:lsp_settings_filetype_css = 'vscode-css-languageserver'
 
 
 " enable all Python syntax highlighting features
@@ -119,7 +123,7 @@ let b:ale_python_auto_virtualenv = 1
 let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'],
             \ 'python': ['prettier','black'],
             \ 'javascript': ['prettier', 'eslint'],
-            \ 'css': ['prettier', 'css-beautify'],
+            \ 'css': ['prettier'],
             \ 'html': ['prettier', 'html-beautify'],
             \ 'cpp': ['prettier', 'astyle'],
             \ 'vue': ['prettier', 'eslint'],}
@@ -147,21 +151,20 @@ autocmd filetype python nnoremap <F5> <Esc>:w<CR>:! clear;python %<CR>
 
 " Javascript
 autocmd filetype javascript nnoremap <F5> <Esc>:w<CR>:! clear;node %<CR>
-autocmd filetype javascript setlocal shiftwidth=2 tabstop=2
+"autocmd filetype javascript setlocal shiftwidth=2 tabstop=2
 
 "Cpp
 autocmd filetype cpp nnoremap <F5> <Esc>:w<CR>:! clear;g++ % -o %< &&./%< <CR>
 
 "omnifunc_lsp
 function! s:on_lsp_buffer_enabled() abort
-    set omnifunc=lsp#complete
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
 endfunction
-
 augroup lsp_install
     au!
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
-
 "Start-Stop LiveServer
 nmap <F2> :StartBrowserSync <CR>
 nmap <F3> :KillBrowserSync <CR>
