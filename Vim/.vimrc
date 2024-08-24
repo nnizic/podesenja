@@ -17,8 +17,7 @@ Plugin 'dense-analysis/ale'
 Plugin 'alvan/vim-closetag'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'farfanoide/vim-kivy'
-Plugin 'prabirshrestha/vim-lsp'
-Plugin 'mattn/vim-lsp-settings'
+Plugin 'ycm-core/YouCompleteMe'
 Plugin 'nvie/vim-flake8'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -33,6 +32,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'jupyter-vim/jupyter-vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'ap/vim-css-color'
+Plugin 'vifm/vifm.vim'
 " add all your plugins here (note older versions of Vundle
 " used Bundle instead of Plugin)
 
@@ -91,10 +91,6 @@ set showmatch
 " boilerplate for vue files(snippet)
 nnoremap vue, :-1read $HOME/.vim/.boilerplate.vue<CR>5jwe4l
 
-" to enable full Vue support via vim-lsp
-let g:lsp_settings_filetype_vue = ['typescript-language-server', 'volar-server']
-let g:lsp_settings = { 'vscode-css-languageserver': {'cmd':['vscode-css-languageserver']}}
-let g:lsp_settings_filetype_css = 'vscode-css-languageserver'
 
 
 " enable all Python syntax highlighting features
@@ -156,15 +152,6 @@ autocmd filetype javascript nnoremap <F5> <Esc>:w<CR>:! clear;node %<CR>
 "Cpp
 autocmd filetype cpp nnoremap <F5> <Esc>:w<CR>:! clear;g++ % -o %< &&./%< <CR>
 
-"omnifunc_lsp
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-endfunction
-augroup lsp_install
-    au!
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
 "Start-Stop LiveServer
 nmap <F2> :StartBrowserSync <CR>
 nmap <F3> :KillBrowserSync <CR>
