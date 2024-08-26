@@ -93,6 +93,26 @@ nnoremap vue, :-1read $HOME/.vim/.boilerplate.vue<CR>5jwe4l
 
 
 
+" omnicomplete
+" autocmd FileType vue set omnifunc=syntaxcomplete#Complete
+
+function! s:setCompeteFunc()
+  if searchpair('<script', '', '</script>', 'bnW')
+    setlocal omnifunc=javascriptcomplete#CompleteJS
+  elseif searchpair('<style', '', '</style>', 'bnW')
+    setlocal omnifunc=csscomplete#CompleteCSS
+  elseif searchpair('<template', '', '</template>', 'bnW')
+    setlocal omnifunc=htmlcomplete#CompleteTags
+  endif
+endfunction
+
+augroup vueBinds
+  au!
+  au CursorMoved,CursorMovedI *.vue call s:setCompeteFunc()
+augroup END
+
+
+
 " enable all Python syntax highlighting features
 let python_highlight_all = 1
 
@@ -141,6 +161,10 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" closetag filetypes
+let g:closetag_filetypes = 'html,xhtml,htmx,vue'
+
 
 " Python
 autocmd filetype python nnoremap <F5> <Esc>:w<CR>:! clear;python %<CR>
