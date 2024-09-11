@@ -33,6 +33,7 @@ Plugin 'jupyter-vim/jupyter-vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'ap/vim-css-color'
 Plugin 'vifm/vifm.vim'
+Plugin 'junegunn/fzf.vim'
 " add all your plugins here (note older versions of Vundle
 " used Bundle instead of Plugin)
 
@@ -96,25 +97,26 @@ nnoremap vue, :-1read $HOME/.vim/.boilerplate.vue<CR>5jwe4l
 " omnicomplete
 " autocmd FileType vue set omnifunc=syntaxcomplete#Complete
 
-function! s:setCompeteFunc()
-  if searchpair('<script', '', '</script>', 'bnW')
-    setlocal omnifunc=javascriptcomplete#CompleteJS
-  elseif searchpair('<style', '', '</style>', 'bnW')
-    setlocal omnifunc=csscomplete#CompleteCSS
-  elseif searchpair('<template', '', '</template>', 'bnW')
-    setlocal omnifunc=htmlcomplete#CompleteTags
-  endif
-endfunction
+ function! s:setCompeteFunc()
+   if searchpair('<script', '', '</script>', 'bnW')
+     setlocal omnifunc=javascriptcomplete#CompleteJS
+   elseif searchpair('<style', '', '</style>', 'bnW')
+     setlocal omnifunc=csscomplete#CompleteCSS
+   elseif searchpair('<template', '', '</template>', 'bnW')
+     setlocal omnifunc=htmlcomplete#CompleteTags
+   endif
+ endfunction
 
-augroup vueBinds
-  au!
-  au CursorMoved,CursorMovedI *.vue call s:setCompeteFunc()
-augroup END
-
-
-
+ augroup vueBinds
+   au!
+   au CursorMoved,CursorMovedI *.vue call s:setCompeteFunc()
+ augroup END
+"
 " enable all Python syntax highlighting features
 let python_highlight_all = 1
+
+" no preview window but popup for YCM
+let g:ymc_add_preview_to_completeopt="popup"
 
 "airline tabs
 let g:airline#extensions#tabline#enabled = 1
