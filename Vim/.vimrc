@@ -48,8 +48,8 @@ syntax enable
 
 " set colorscheme
 set background=dark
+set termguicolors
 colorscheme iceberg
-
 " show line numbers
 " hybrid line numbers
 set number relativenumber
@@ -83,8 +83,9 @@ set expandtab
 " when using the >> or << commands, shift lines by 4 spaces
 set shiftwidth=4
 
-" show a visual line under the cursor's current line
+" show a visual line under the cursor's current line and column
 set cursorline
+set cursorcolumn
 
 " show the matching part of the pair for [] {} and ()
 set showmatch
