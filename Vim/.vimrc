@@ -117,7 +117,8 @@ nnoremap vue, :-1read $HOME/.vim/.boilerplate.vue<CR>5jwe4l
 let python_highlight_all = 1
 
 " no preview window but popup for YCM
-let g:ymc_add_preview_to_completeopt="popup"
+let g:ycm_add_preview_to_completeopt = "popup"
+let g:ycm_autoclose_preview_window_after_completion = 1
 
 "airline tabs
 let g:airline#extensions#tabline#enabled = 1
