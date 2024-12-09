@@ -34,6 +34,8 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'ap/vim-css-color'
 Plugin 'vifm/vifm.vim'
 Plugin 'junegunn/fzf.vim'
+Plugin 'nicwest/vim-http'
+Plugin 'iamcco/markdown-preview.nvim' " :call mkdp#util#install()
 " add all your plugins here (note older versions of Vundle
 " used Bundle instead of Plugin)
 
@@ -50,6 +52,9 @@ syntax enable
 set background=dark
 set termguicolors
 colorscheme iceberg
+" set transparent background
+hi NonText ctermbg=none
+hi Normal guibg=NONE ctermbg=NONE
 " show line numbers
 " hybrid line numbers
 set number relativenumber
