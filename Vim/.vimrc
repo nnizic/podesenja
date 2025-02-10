@@ -1,54 +1,60 @@
 ﻿set nocompatible              " required
-filetype off                  " required
+" Koristi vim-plug umjesto Vundle
+call plug#begin('~/.vim/plugged')
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" === Navigacija i struktura koda ===
+Plug 'preservim/nerdtree' " File explorer unutar Vima
+Plug 'majutsushi/tagbar' " Prikazuje strukturu klase/funkcija (ctags)
 
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" === Sintaksno isticanje i linting ===
+Plug 'lepture/vim-jinja' " Podrška za Jinja2 templating
+Plug 'dense-analysis/ale' " Asinkroni linter i fixer
+Plug 'sheerun/vim-polyglot' " Sintaksna podrška za više jezika
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'preservim/nerdtree'
-Plugin 'majutsushi/tagbar'
-Plugin 'lepture/vim-jinja'
-Plugin 'dense-analysis/ale'
-Plugin 'alvan/vim-closetag'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'farfanoide/vim-kivy'
-Plugin 'ycm-core/YouCompleteMe'
-Plugin 'nvie/vim-flake8'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'cocopon/iceberg.vim'
-Plugin 'prettier/vim-prettier'
-Plugin 'bfrg/vim-cpp-modern'
-Plugin 'wolandark/vim-live-server.git'
-Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'fatih/vim-go'
-Plugin 'leafOfTree/vim-vue-plugin'
-Plugin 'mattn/emmet-vim'
-Plugin 'jupyter-vim/jupyter-vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'ap/vim-css-color'
-Plugin 'junegunn/fzf.vim'
-Plugin 'nicwest/vim-http'
-Plugin 'iamcco/markdown-preview.nvim' " :call mkdp#util#install()
-Plugin 'sheerun/vim-polyglot'
-Plugin 'francoiscabrol/ranger.vim'
-Plugin 'ryanoasis/vim-devicons'
-" add all your plugins here (note older versions of Vundle
-" used Bundle instead of Plugin)
+" === Automatsko zatvaranje tagova i zagrada ===
+Plug 'alvan/vim-closetag' " Automatsko zatvaranje HTML/XML tagova
+Plug 'jiangmiao/auto-pairs' " Automatsko zatvaranje zagrada i navodnika
 
-" ...
+" === Poboljšanja za Vim interfejs ===
+Plug 'vim-airline/vim-airline' " Napredna statusna traka
+Plug 'vim-airline/vim-airline-themes' " Tematski dodaci za airline
+Plug 'cocopon/iceberg.vim' " Iceberg tema
+Plug 'ryanoasis/vim-devicons' " Dodaje ikone u NERDTree i Vim
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+" === Formatiranje i automatsko sređivanje koda ===
+Plug 'prettier/vim-prettier' " Automatski formatira JS/TS/CSS kod
 
-" enable syntax highlighting
-syntax enable
+" === Web development ===
+Plug 'ap/vim-css-color' " Prikazuje stvarne boje u CSS/HTML kodu
+Plug 'wolandark/vim-live-server.git' " Pokreće live server unutar Vim-a
+Plug 'mattn/emmet-vim' " Omogućava brzo HTML/CSS pisanje pomoću Emmet-a
+Plug 'leafOfTree/vim-vue-plugin' " Poboljšana podrška za Vue.js
+
+" === Backend development ===
+Plug 'ycm-core/YouCompleteMe' " Automatska nadopuna koda
+Plug 'nvie/vim-flake8' " Provjera Python koda s flake8
+Plug 'jmcantrell/vim-virtualenv' " Omogućava rad s Python virtualnim okruženjima
+Plug 'fatih/vim-go' " Poboljšana podrška za Go jezik
+Plug 'bfrg/vim-cpp-modern' " Poboljšano sintaksno isticanje za moderni C++
+
+" === Markdown i dokumentacija ===
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' } " Live pregled Markdowna
+
+" === Alati i pretraga ===
+Plug 'junegunn/fzf.vim' " Brza pretraga datoteka i buffera
+Plug 'nicwest/vim-http' " Slanje HTTP zahtjeva iz Vim-a
+Plug 'francoiscabrol/ranger.vim' " Terminalski file manager unutar Vim-a
+Plug 'tpope/vim-fugitive' " Napredna Git integracija
+
+call plug#end()
+
+" === Instalacija pluginova ===
+" 
+"curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+"    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" Nakon spremanja instalacije , u Vim-u pokreni :PlugInstall
+
+
 
 " set colorscheme
 set background=dark
