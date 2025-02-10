@@ -32,10 +32,12 @@ Plugin 'mattn/emmet-vim'
 Plugin 'jupyter-vim/jupyter-vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'ap/vim-css-color'
-Plugin 'vifm/vifm.vim'
 Plugin 'junegunn/fzf.vim'
 Plugin 'nicwest/vim-http'
 Plugin 'iamcco/markdown-preview.nvim' " :call mkdp#util#install()
+Plugin 'sheerun/vim-polyglot'
+Plugin 'francoiscabrol/ranger.vim'
+Plugin 'ryanoasis/vim-devicons'
 " add all your plugins here (note older versions of Vundle
 " used Bundle instead of Plugin)
 
