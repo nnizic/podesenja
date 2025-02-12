@@ -1,0 +1,41 @@
+{
+  // === Opće postavke ===
+  "coc.preferences.formatOnSave": true, // Automatsko formatiranje pri spremanju
+  "coc.preferences.formatOnSaveFiletypes": ["*"], // Omogućeno za sve jezike
+
+  // === Python postavke ===
+  "python.formatting.provider": "black", // Koristi Black za formatiranje
+  "python.formatting.blackPath": "black", // Put do Black alata
+  "python.formatting.blackArgs": ["--line-length", "88"], // Dodatne opcije za Black
+  "python.sortImports.path": "isort", // Koristi isort za sortiranje importa
+  "python.sortImports.args": ["--profile", "black"], // Usklađivanje isorta s Blackom
+  "python.linting.enabled": true, // Omogući lintanje za Python
+  "python.linting.flake8Enabled": true, // Koristi Flake8 za lintanje
+  "python.linting.flake8Path": "flake8", // Put do Flake8
+  "python.linting.flake8Args": ["--max-line-length=88", "--extend-ignore=E203"],
+
+  // === JavaScript/TypeScript postavke ===
+  "eslint.autoFixOnSave": true, // Automatsko popravljanje s ESLint-om
+  "eslint.enable": true, // Omogući ESLint za lintanje
+  "eslint.packageManager": "npm", // Koristi npm za instalaciju
+  "eslint.format.enable": true, // Koristi ESLint za formatiranje
+  "prettier.enable": true, // Omogući Prettier
+  "prettier.requireConfig": false, // Ne zahtijeva lokalnu konfiguracijsku datoteku
+  "prettier.singleQuote": true, // Koristi jednostruke navodnike
+  "prettier.tabWidth": 2, // Širina tabova 2 razmaka
+
+  // === C++ postavke ===
+  "clangd.arguments": [
+    "--background-index",
+    "--clang-tidy",
+    "--completion-style=detailed",
+    "--header-insertion=never"
+  ],
+  "coc.preferences.formatOnSaveFiletypes": ["cpp", "c", "h"], // Formatiranje za C/C++ datoteke
+
+  // === Vue postavke ===
+  "vetur.format.defaultFormatter.html": "prettier", // Prettier za HTML u Vue
+  "vetur.format.defaultFormatter.js": "prettier", // Prettier za JS unutar Vue
+  "vetur.format.defaultFormatter.css": "prettier", // Prettier za CSS u Vue
+  "eslint.autoFixOnSave": true // ESLint za Vue datoteke
+}

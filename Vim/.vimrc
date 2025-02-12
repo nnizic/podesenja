@@ -1,38 +1,35 @@
-﻿set nocompatible              " required
-" Koristi vim-plug umjesto Vundle
+" Plugin manager setup
 call plug#begin('~/.vim/plugged')
 
 " === Navigacija i struktura koda ===
 Plug 'preservim/nerdtree' " File explorer unutar Vima
 Plug 'majutsushi/tagbar' " Prikazuje strukturu klase/funkcija (ctags)
 
+" === Glavni LSP i auto-completion plugin ===
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " === Sintaksno isticanje i linting ===
-Plug 'lepture/vim-jinja' " Podrška za Jinja2 templating
-Plug 'dense-analysis/ale' " Asinkroni linter i fixer
 Plug 'sheerun/vim-polyglot' " Sintaksna podrška za više jezika
+Plug 'ap/vim-css-color' " Prikazuje stvarne boje u CSS/HTML kodu
+Plug 'cocopon/iceberg.vim' " Iceberg tema
+Plug 'ryanoasis/vim-devicons' " Dodaje ikone u NERDTree i Vim
 
 " === Automatsko zatvaranje tagova i zagrada ===
 Plug 'alvan/vim-closetag' " Automatsko zatvaranje HTML/XML tagova
 Plug 'jiangmiao/auto-pairs' " Automatsko zatvaranje zagrada i navodnika
 
-" === Poboljšanja za Vim interfejs ===
-Plug 'vim-airline/vim-airline' " Napredna statusna traka
-Plug 'vim-airline/vim-airline-themes' " Tematski dodaci za airline
-Plug 'cocopon/iceberg.vim' " Iceberg tema
-Plug 'ryanoasis/vim-devicons' " Dodaje ikone u NERDTree i Vim
-
 " === Formatiranje i automatsko sređivanje koda ===
 Plug 'prettier/vim-prettier' " Automatski formatira JS/TS/CSS kod
 
 " === Web development ===
-Plug 'ap/vim-css-color' " Prikazuje stvarne boje u CSS/HTML kodu
-Plug 'wolandark/vim-live-server.git' " Pokreće live server unutar Vim-a
 Plug 'mattn/emmet-vim' " Omogućava brzo HTML/CSS pisanje pomoću Emmet-a
 Plug 'leafOfTree/vim-vue-plugin' " Poboljšana podrška za Vue.js
+Plug 'lepture/vim-jinja' " Podrška za Jinja2 templating
+Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'} " Live Server za pregled u pregledniku
+Plug 'https://github.com/wolandark/vim-live-server.git' " Pokreće live server unutar Vim-a
+
 
 " === Backend development ===
-Plug 'ycm-core/YouCompleteMe' " Automatska nadopuna koda
-Plug 'nvie/vim-flake8' " Provjera Python koda s flake8
 Plug 'jmcantrell/vim-virtualenv' " Omogućava rad s Python virtualnim okruženjima
 Plug 'fatih/vim-go' " Poboljšana podrška za Go jezik
 Plug 'bfrg/vim-cpp-modern' " Poboljšano sintaksno isticanje za moderni C++
@@ -46,25 +43,66 @@ Plug 'nicwest/vim-http' " Slanje HTTP zahtjeva iz Vim-a
 Plug 'francoiscabrol/ranger.vim' " Terminalski file manager unutar Vim-a
 Plug 'tpope/vim-fugitive' " Napredna Git integracija
 
+" === Poboljšanja za VIM interface ===
+Plug 'vim-airline/vim-airline' " Napredna statusna traka
+Plug 'vim-airline/vim-airline-themes' " Tematski dodaci za airline
 call plug#end()
 
-" === Instalacija pluginova ===
-" 
-"curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-"    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-" Nakon spremanja instalacije , u Vim-u pokreni :PlugInstall
+" === coc.nvim language servers setup ===
+let g:coc_global_extensions = [
+     \'coc-clangd',       
+     \'coc-pyright',      
+     \'coc-tsserver',    
+     \'coc-eslint',      
+     \'coc-prettier',    
+     \'coc-vetur',       
+     \'coc-html',         
+     \'coc-css',          
+     \'coc-json',         
+     \'coc-sh',           
+     \'coc-markdownlint'  
+     \]
+" Auto-format and fix on save
+autocmd BufWritePre *.js,*.ts,*.vue :CocCommand eslint.executeAutofix
+autocmd BufWritePre *.html,*.css,*.json,*.md :CocCommand prettier.formatFile
+autocmd BufWritePre *.cpp,*.h,*.c :CocCommand clangd.applyFix
+autocmd BufWritePre *.py :CocCommand python.sortImports
+" Automatsko formatiranje Python koda prilikom spremanja
+autocmd BufWritePre *.py :silent! !isort %
+autocmd BufWritePre *.py :silent! !black % --quiet %
 
 
+" Key mappings for coc.nvim
+nmap <leader>d <Plug>(coc-definition)  " Jump to definition
+nmap <leader>r <Plug>(coc-rename)      " Rename symbol
+nmap <leader>f <Plug>(coc-format)      " Manual format
+" <Enter> for trigger
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
-" set colorscheme
+" Run program based on file type
+" Python
+autocmd filetype python nnoremap <F5> <Esc>:w<CR>:! clear;python %<CR>
+
+" Javascript
+autocmd filetype javascript nnoremap <F5> <Esc>:w<CR>:! clear;node %<CR>
+
+"Cpp
+autocmd filetype cpp nnoremap <F5> <Esc>:w<CR>:! clear;g++ % -o %< &&./%< <CR>
+
+
+"Start Live Server
+nnoremap <leader>ls :BraceyStart<CR>
+nnoremap <leader>lq :BraceyStop<CR>
+
+" === Vim Interface Enhancements ===
 set background=dark
 set termguicolors
 colorscheme iceberg
-" set transparent background
-hi NonText ctermbg=none
-hi Normal guibg=NONE ctermbg=NONE
-" show line numbers
-" hybrid line numbers
+
+
+" boilerplate for vue files(snippet)
+nnoremap vue, :-1read $HOME/.vim/.boilerplate.vue<CR>5jwe4l
+
 set number relativenumber
 augroup numbertoggle
   autocmd!
@@ -72,67 +110,45 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
 augroup END
 
-" set tabs to have 4 spaces
+" postavljanje <Leader>
+let mapleader = " "
+
 set ts=4
-
-" indent when moving to the next line while writing code
 set autoindent
-
-" intelligent indentation for C
 set smartindent
-
-" Search down in subolders
+set expandtab
+set shiftwidth=4
+set cursorline
+set cursorcolumn
+set showmatch
 " Provides tab-completion for all file-related tasks
 " fuzzyfind
 set path+=**
-
 " Display all matching files when tabcomplete
 set wildmenu
+" set transparent background
+hi NonText ctermbg=none
+hi Normal guibg=NONE ctermbg=NONE
 
 
-" expand tabs into spaces
-set expandtab
+" redefine the trigger key
+let g:user_emmet_leader_key=','
 
-" when using the >> or << commands, shift lines by 4 spaces
-set shiftwidth=4
+" NERDTree bindings
+nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-t> :TagbarToggle<CR>
+let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
-" show a visual line under the cursor's current line and column
-set cursorline
-set cursorcolumn
+" Split navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 
-" show the matching part of the pair for [] {} and ()
-set showmatch
-
-" boilerplate for vue files(snippet)
-nnoremap vue, :-1read $HOME/.vim/.boilerplate.vue<CR>5jwe4l
-
-
-
-" omnicomplete
-" autocmd FileType vue set omnifunc=syntaxcomplete#Complete
-
- function! s:setCompeteFunc()
-   if searchpair('<script', '', '</script>', 'bnW')
-     setlocal omnifunc=javascriptcomplete#CompleteJS
-   elseif searchpair('<style', '', '</style>', 'bnW')
-     setlocal omnifunc=csscomplete#CompleteCSS
-   elseif searchpair('<template', '', '</template>', 'bnW')
-     setlocal omnifunc=htmlcomplete#CompleteTags
-   endif
- endfunction
-
- augroup vueBinds
-   au!
-   au CursorMoved,CursorMovedI *.vue call s:setCompeteFunc()
- augroup END
-"
-" enable all Python syntax highlighting features
-let python_highlight_all = 1
-
-" no preview window but popup for YCM
-let g:ycm_add_preview_to_completeopt = "popup"
-let g:ycm_autoclose_preview_window_after_completion = 1
-
+" no backup files
+set nobackup       "no backup files
+set nowritebackup  "only in case you don't want a backup file while editing
+set noswapfile     "no swap files
 "airline tabs
 let g:airline#extensions#tabline#enabled = 1
 
@@ -151,48 +167,12 @@ let g:vim_vue_plugin_config = {
       \'debug': 0,
       \}
 
-" ALE linting
-let b:ale_python_auto_virtualenv = 1
-let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \ 'python': ['prettier','black'],
-            \ 'javascript': ['prettier', 'eslint'],
-            \ 'css': ['prettier'],
-            \ 'html': ['prettier', 'html-beautify'],
-            \ 'cpp': ['prettier', 'astyle'],
-            \ 'vue': ['prettier', 'eslint'],}
-let g:ale_fix_on_save = 1
-" redefine the trigger key
-let g:user_emmet_leader_key=','
-" file browser
-let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-nnoremap <C-n> :NERDTreeToggle<CR>
-nnoremap <C-t> :TagbarToggle<CR>
 
-" no backup files
-set nobackup       "no backup files
-set nowritebackup  "only in case you don't want a backup file while editing
-set noswapfile     "no swap files
 
-"split navigations
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-" closetag filetypes
+" CloseTag setup
 let g:closetag_filetypes = 'html,xhtml,htmx,vue'
 
-
-" Python
-autocmd filetype python nnoremap <F5> <Esc>:w<CR>:! clear;python %<CR>
-
-" Javascript
-autocmd filetype javascript nnoremap <F5> <Esc>:w<CR>:! clear;node %<CR>
-"autocmd filetype javascript setlocal shiftwidth=2 tabstop=2
-
-"Cpp
-autocmd filetype cpp nnoremap <F5> <Esc>:w<CR>:! clear;g++ % -o %< &&./%< <CR>
-
-"Start-Stop LiveServer
+" Start-Stop LiveServer
 nmap <F2> :StartBrowserSync <CR>
 nmap <F3> :KillBrowserSync <CR>
+
