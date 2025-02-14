@@ -1,7 +1,6 @@
 {
   // === Opće postavke ===
   "coc.preferences.formatOnSave": true, // Automatsko formatiranje pri spremanju
-  "coc.preferences.formatOnSaveFiletypes": ["*"], // Omogućeno za sve jezike
 
   // === Python postavke ===
   "python.formatting.provider": "black", // Koristi Black za formatiranje
@@ -14,8 +13,11 @@
   "python.linting.flake8Path": "flake8", // Put do Flake8
   "python.linting.flake8Args": ["--max-line-length=88", "--extend-ignore=E203"],
 
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.diagnosticMode": "workspace",
+
   // === JavaScript/TypeScript postavke ===
-  "eslint.autoFixOnSave": true, // Automatsko popravljanje s ESLint-om
   "eslint.enable": true, // Omogući ESLint za lintanje
   "eslint.packageManager": "npm", // Koristi npm za instalaciju
   "eslint.format.enable": true, // Koristi ESLint za formatiranje
@@ -31,7 +33,6 @@
     "--completion-style=detailed",
     "--header-insertion=never"
   ],
-  "coc.preferences.formatOnSaveFiletypes": ["cpp", "c", "h"], // Formatiranje za C/C++ datoteke
 
   // === Vue postavke ===
   "vetur.format.defaultFormatter.html": "prettier", // Prettier za HTML u Vue

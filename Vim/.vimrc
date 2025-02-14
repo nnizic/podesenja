@@ -70,6 +70,9 @@ autocmd BufWritePre *.py :CocCommand python.sortImports
 " Automatsko formatiranje Python koda prilikom spremanja
 autocmd BufWritePre *.py :silent! !isort %
 autocmd BufWritePre *.py :silent! !black % --quiet %
+set autoread
+autocmd FocusGained, BufEnter * checktime
+autocmd BufWritePost *.py silent! edit
 
 
 " Key mappings for coc.nvim
@@ -81,13 +84,13 @@ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 " Run program based on file type
 " Python
-autocmd filetype python nnoremap <F5> <Esc>:w<CR>:! clear;python %<CR>
+autocmd filetype python nnoremap <F5> :w<CR>:! clear;python %<CR>
 
 " Javascript
-autocmd filetype javascript nnoremap <F5> <Esc>:w<CR>:! clear;node %<CR>
+autocmd filetype javascript nnoremap <F5> :w<CR>:! clear;node %<CR>
 
 "Cpp
-autocmd filetype cpp nnoremap <F5> <Esc>:w<CR>:! clear;g++ % -o %< &&./%< <CR>
+autocmd filetype cpp nnoremap <F5>:w<CR>:! clear;g++ % -o %< &&./%< <CR>
 
 
 "Start Live Server
