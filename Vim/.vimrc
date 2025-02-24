@@ -63,17 +63,12 @@ let g:coc_global_extensions = [
      \'coc-markdownlint'  
      \]
 " Auto-format and fix on save
-autocmd BufWritePre *.js,*.ts,*.vue :CocCommand eslint.executeAutofix
-autocmd BufWritePre *.html,*.css,*.json,*.md :CocCommand prettier.formatFile
-autocmd BufWritePre *.cpp,*.h,*.c :CocCommand clangd.applyFix
+autocmd BufWritePre *.js,*.ts,*.vue :CocCommand eslint.executeAutofix | call CocAction('format')
+autocmd BufWritePre *.cpp,*.h,*.c call CocAction('format')
+autocmd BufWritePre *.html,*.css,*.json,*.md call CocAction('format')
 autocmd BufWritePre *.py :CocCommand python.sortImports
-" Automatsko formatiranje Python koda prilikom spremanja
-autocmd BufWritePre *.py :silent! !isort %
-autocmd BufWritePre *.py :silent! !black % --quiet %
-set autoread
-autocmd FocusGained, BufEnter * checktime
-autocmd BufWritePost *.py silent! edit
-
+autocmd BufWritePre *.py call CocAction('format')
+autocmd FocusGained, BufEnter * :CocCommand workspace.refresh
 
 " Key mappings for coc.nvim
 nmap <leader>d <Plug>(coc-definition)  " Jump to definition
@@ -133,6 +128,9 @@ set wildmenu
 hi NonText ctermbg=none
 hi Normal guibg=NONE ctermbg=NONE
 
+" split window
+set splitright
+set splitbelow
 
 " redefine the trigger key
 let g:user_emmet_leader_key=','

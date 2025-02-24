@@ -1,42 +1,19 @@
 {
-  // === Opće postavke ===
-  "coc.preferences.formatOnSave": true, // Automatsko formatiranje pri spremanju
-
-  // === Python postavke ===
-  "python.formatting.provider": "black", // Koristi Black za formatiranje
-  "python.formatting.blackPath": "black", // Put do Black alata
-  "python.formatting.blackArgs": ["--line-length", "88"], // Dodatne opcije za Black
-  "python.sortImports.path": "isort", // Koristi isort za sortiranje importa
-  "python.sortImports.args": ["--profile", "black"], // Usklađivanje isorta s Blackom
-  "python.linting.enabled": true, // Omogući lintanje za Python
-  "python.linting.flake8Enabled": true, // Koristi Flake8 za lintanje
-  "python.linting.flake8Path": "flake8", // Put do Flake8
-  "python.linting.flake8Args": ["--max-line-length=88", "--extend-ignore=E203"],
-
-  "python.analysis.typeCheckingMode": "basic",
-  "python.analysis.autoSearchPaths": true,
-  "python.analysis.diagnosticMode": "workspace",
-
-  // === JavaScript/TypeScript postavke ===
-  "eslint.enable": true, // Omogući ESLint za lintanje
-  "eslint.packageManager": "npm", // Koristi npm za instalaciju
-  "eslint.format.enable": true, // Koristi ESLint za formatiranje
-  "prettier.enable": true, // Omogući Prettier
-  "prettier.requireConfig": false, // Ne zahtijeva lokalnu konfiguracijsku datoteku
-  "prettier.singleQuote": true, // Koristi jednostruke navodnike
-  "prettier.tabWidth": 2, // Širina tabova 2 razmaka
-
   // === C++ postavke ===
   "clangd.arguments": [
     "--background-index",
     "--clang-tidy",
+    "--header-insertion=never",
     "--completion-style=detailed",
-    "--header-insertion=never"
+    "--pch-storage=memory",
+    "--log=verbose"
   ],
+  "clangd.fallbackFlags": ["-std=c++17", "-Wall", "-Wextra", "-Wpedantic"],
 
-  // === Vue postavke ===
-  "vetur.format.defaultFormatter.html": "prettier", // Prettier za HTML u Vue
-  "vetur.format.defaultFormatter.js": "prettier", // Prettier za JS unutar Vue
-  "vetur.format.defaultFormatter.css": "prettier", // Prettier za CSS u Vue
-  "eslint.autoFixOnSave": true // ESLint za Vue datoteke
+  // === Python ===
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": "black",
+  "python.formatting.blackArgs": ["--line-length", "88"],
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true
 }
