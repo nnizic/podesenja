@@ -79,14 +79,13 @@ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 " Run program based on file type
 " Python
-autocmd filetype python nnoremap <F5> :w<CR>:! clear;python %<CR>
+autocmd filetype python nnoremap <F5> :w<CR>:bo terminal bash -c "python %; read -p 'Press Enter to close...' "  <CR>
 
-" Javascript
-autocmd filetype javascript nnoremap <F5> :w<CR>:! clear;node %<CR>
+" JavaScript
+autocmd filetype javascript nnoremap <F5> :w<CR>:bo terminal bash -c "node %; read -p 'Press Enter to close...' "  <CR>
 
-"Cpp
-autocmd filetype cpp nnoremap <F5>:w<CR>:! clear;g++ % -o %< &&./%< <CR>
-
+" C++
+autocmd filetype cpp nnoremap <F5> :w<CR>:bo terminal bash -c "g++ % -o %< && ./%<; read -p 'Press Enter to close...' "  <CR>
 
 "Start Live Server
 nnoremap <leader>ls :BraceyStart<CR>
@@ -176,4 +175,7 @@ let g:closetag_filetypes = 'html,xhtml,htmx,vue'
 " Start-Stop LiveServer
 nmap <F2> :StartBrowserSync <CR>
 nmap <F3> :KillBrowserSync <CR>
+
+" Clean terminal afer leaving vim
+autocmd VimLeave * silent exec "!clear"
 
