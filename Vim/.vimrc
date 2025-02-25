@@ -79,13 +79,23 @@ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 " Run program based on file type
 " Python
-autocmd filetype python nnoremap <F5> :w<CR>:bo terminal bash -c "python %; read -p 'Press Enter to close...' "  <CR>
+autocmd filetype python nnoremap<silent><F5> :w<CR>:bo terminal bash -c "python %; read -p 'Press Enter to close...' " <CR>
 
 " JavaScript
-autocmd filetype javascript nnoremap <F5> :w<CR>:bo terminal bash -c "node %; read -p 'Press Enter to close...' "  <CR>
+autocmd filetype javascript nnoremap <silent><F5> :w<CR>:bo terminal bash -c "node %; read -p 'Press Enter to close...' "  <CR>
 
 " C++
-autocmd filetype cpp nnoremap <F5> :w<CR>:bo terminal bash -c "g++ % -o %< && ./%<; read -p 'Press Enter to close...' "  <CR>
+autocmd filetype cpp nnoremap <silent><F5> :w<CR>:bo terminal bash -c "g++ % -o %< && ./%<; read -p 'Press Enter to close...' "  <CR>
+
+" Close terminal and buffer
+autocmd TerminalWinOpen *  call TimerCloseTerminal() 
+
+function! TimerCloseTerminal()
+    augroup TerminalClose
+        autocmd!
+        autocmd CursorMoved * bd!
+    augroup END
+endfunction
 
 "Start Live Server
 nnoremap <leader>ls :BraceyStart<CR>
