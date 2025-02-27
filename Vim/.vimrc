@@ -32,6 +32,7 @@ Plug 'https://github.com/wolandark/vim-live-server.git' " Pokreće live server u
 " === Backend development ===
 Plug 'jmcantrell/vim-virtualenv' " Omogućava rad s Python virtualnim okruženjima
 Plug 'fatih/vim-go' " Poboljšana podrška za Go jezik
+Plug 'neovimhaskell/haskell-vim' " Sintaksno isticanje i linting za Haskell
 Plug 'bfrg/vim-cpp-modern' " Poboljšano sintaksno isticanje za moderni C++
 
 " === Markdown i dokumentacija ===
@@ -68,36 +69,53 @@ autocmd BufWritePre *.cpp,*.h,*.c call CocAction('format')
 autocmd BufWritePre *.html,*.css,*.json,*.md call CocAction('format')
 autocmd BufWritePre *.py :CocCommand python.sortImports
 autocmd BufWritePre *.py call CocAction('format')
-autocmd FocusGained, BufEnter * :CocCommand workspace.refresh
+autocmd BufWritePre *.hs call CocAction('format')
 
 " Key mappings for coc.nvim
-nmap <leader>d <Plug>(coc-definition)  " Jump to definition
-nmap <leader>r <Plug>(coc-rename)      " Rename symbol
-nmap <leader>f <Plug>(coc-format)      " Manual format
+nmap <leader>cd <Plug>(coc-definition)  " Jump to definition
+nmap <leader>cr <Plug>(coc-rename)      " Rename symbol
+nmap <leader>cf <Plug>(coc-format)      " Manual format
 " <Enter> for trigger
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 " Run program based on file type
-" Python
-autocmd filetype python nnoremap<silent><F5> :w<CR>:bo terminal bash -c "python %; read -p 'Press Enter to close...' " <CR>
+autocmd filetype * nnoremap <F5> <Esc>:w<CR>:call CocActionAsync('format', function('RunCode'))<CR>
 
-" JavaScript
-autocmd filetype javascript nnoremap <silent><F5> :w<CR>:bo terminal bash -c "node %; read -p 'Press Enter to close...' "  <CR>
+function! RunCode(err, res)
+  if a:err != v:null
+    echo "Formatting failed!"
+    return
+  endif
 
-" C++
-autocmd filetype cpp nnoremap <silent><F5> :w<CR>:bo terminal bash -c "g++ % -o %< && ./%<; read -p 'Press Enter to close...' "  <CR>
+  let l:filetype = &filetype
+  let l:filepath = shellescape(expand('%:p'))  " Apsolutna putanja, escapirana za bash
+  let l:filename_no_ext = shellescape(expand('%:r'))  " Ime bez ekstenzije, escapirano
 
-" Close terminal and buffer
-autocmd TerminalWinOpen *  call TimerCloseTerminal() 
-
-function! TimerCloseTerminal()
-    augroup TerminalClose
-        autocmd!
-        autocmd CursorMoved * bd!
-    augroup END
+  if l:filetype == 'python'
+    execute ':bo terminal bash -c "python ' . l:filepath . ' ; echo Press Enter to close...; read -n 1 -s"'
+  elseif l:filetype == 'javascript'
+    execute ':bo terminal bash -c "node ' . l:filepath . ' ; echo Press Enter to close...; read -n 1 -s"'
+  elseif l:filetype == 'cpp'
+    execute ':bo terminal bash -c "g++ ' . l:filepath . ' -o ' . l:filename_no_ext . ' && echo Compilation successful! && ./' . l:filename_no_ext . ' ; echo Press Enter to close...; read -n 1 -s"'
+  elseif l:filetype == 'haskell'
+    execute ':bo terminal bash -c "ghc -dynamic ' . l:filepath . ' -o ' . l:filename_no_ext . ' && echo Compilation successful! && ./' . l:filename_no_ext . ' ; echo Press Enter to close...; read -n 1 -s"'
+  else
+    echo "No run command configured for this filetype"
+  endif
 endfunction
 
-"Start Live Server
+" Haskell - otvaranje datoteke u ghci
+autocmd filetype haskell nnoremap <Leader>hs :w<CR>:bo terminal ghci %<CR>
+
+
+" Close terminal and buffer
+autocmd CursorMoved * silent! if &buftype == "terminal" && bufname('%') =~# 'Press Enter to close' | |bd!| endif
+
+" Haskell indent comes from hlint not vim haskell plugin
+let g:haskell_indent_disable=1
+
+
+" Start Live Server
 nnoremap <leader>ls :BraceyStart<CR>
 nnoremap <leader>lq :BraceyStop<CR>
 
@@ -119,6 +137,7 @@ augroup END
 
 " postavljanje <Leader>
 let mapleader = " "
+let maplocalleader = " "
 
 set ts=4
 set autoindent
