@@ -49,6 +49,10 @@ Plug 'vim-airline/vim-airline' " Napredna statusna traka
 Plug 'vim-airline/vim-airline-themes' " Tematski dodaci za airline
 call plug#end()
 
+" postavljanje <Leader>
+let mapleader = " "
+let maplocalleader = " "
+
 " === coc.nvim language servers setup ===
 let g:coc_global_extensions = [
      \'coc-clangd',       
@@ -72,9 +76,9 @@ autocmd BufWritePre *.py call CocAction('format')
 autocmd BufWritePre *.hs call CocAction('format')
 
 " Key mappings for coc.nvim
-nmap <leader>cd <Plug>(coc-definition)  " Jump to definition
-nmap <leader>cr <Plug>(coc-rename)      " Rename symbol
-nmap <leader>cf <Plug>(coc-format)      " Manual format
+nmap <Leader>cd <Plug>(coc-definition)  " Jump to definition
+nmap <Leader>cr <Plug>(coc-rename)      " Rename symbol
+nmap <Leader>cf <Plug>(coc-format)      " Manual format
 " <Enter> for trigger
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
@@ -104,12 +108,29 @@ function! RunCode(err, res)
   endif
 endfunction
 
-" Haskell - otvaranje datoteke u ghci
+" Close terminal and buffer
+" autocmd CursorMoved * if &buftype == "terminal" && bufname('%') =~# 'Press Enter to close' | | bd! | endif
+autocmd TerminalWinOpen * tnoremap <buffer><CR><CR> <C-\><C-n> :bd! <CR>
+nnoremap <CR><CR> :call CloseBuffer() <CR> 
+
+function! CloseBuffer()
+    " provjeri koliko je otvorenih buffera
+    let l:buf_count = len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+
+    " Ako ne postoji više od jednog buffera, zatvori trenutni
+    if l:buf_count > 1
+        execute "bd!"
+    else
+        echo "Cannot close the last buffer"
+    endif
+endfunction
+
+
+
+
+    " Haskell - otvaranje datoteke u ghci
 autocmd filetype haskell nnoremap <Leader>hs :w<CR>:bo terminal ghci %<CR>
 
-
-" Close terminal and buffer
-autocmd CursorMoved * silent! if &buftype == "terminal" && bufname('%') =~# 'Press Enter to close' | |bd!| endif
 
 " Haskell indent comes from hlint not vim haskell plugin
 let g:haskell_indent_disable=1
@@ -135,9 +156,6 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
 augroup END
 
-" postavljanje <Leader>
-let mapleader = " "
-let maplocalleader = " "
 
 set ts=4
 set autoindent
