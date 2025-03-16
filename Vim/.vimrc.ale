@@ -1,0 +1,140 @@
+" === PLUGIN MANAGER (vim-plug) ===
+call plug#begin('~/.vim/plugged')
+
+" === PRODUCTIVITY === "
+Plug 'tpope/vim-sensible'      " Pametne defaultne postavke
+Plug 'tpope/vim-surround'      " Brza manipulacija zagradama i navodnicima
+Plug 'majutsushi/tagbar' " Prikazuje strukturu klase/funkcija (ctags)
+Plug 'preservim/nerdtree'      " File Explorer
+Plug 'rbgrouleff/bclose.vim'   " Zatvaranje buffer-a
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'mhinz/vim-startify'      " Lijepa početna stranica
+
+" === FILE MANAGER (RANGER) === "
+Plug 'francoiscabrol/ranger.vim'
+Plug 'rbgrouleff/bclose.vim'
+
+" === GIT === "
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" === AUTOCOMPLETE & SYNTAX === "
+Plug 'dense-analysis/ale'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" === PROGRAMMING LANGUAGES === "
+Plug 'sheerun/vim-polyglot'
+Plug 'vim-python/python-syntax'
+Plug 'rust-lang/rust.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'posva/vim-vue'
+
+" === DEBUGGING === "
+Plug 'puremourning/vimspector'
+Plug 'https://github.com/wolandark/vim-live-server.git' " Pokreće live server unutar Vim-a
+
+" === Poboljšanja za VIM interface ===
+Plug 'vim-airline/vim-airline' " Napredna statusna traka
+Plug 'ap/vim-css-color' " Prikazuje stvarne boje u CSS/HTML kodu
+Plug 'cocopon/iceberg.vim' " Iceberg tema
+Plug 'ryanoasis/vim-devicons' " Dodaje ikone u NERDTree i Vim
+Plug 'vim-airline/vim-airline-themes' " Tematski dodaci za airline
+
+call plug#end()
+
+" === GENERAL SETTINGS ===
+set number               " Prikazuje brojeve linija
+set relativenumber       " Omogućava relativno numeriranje linija
+set tabstop=4           " Tab je 4 spacea
+set shiftwidth=4        " Automatski shift kod indentacije
+set expandtab           " Koristi spaceove umjesto tabova
+set autoindent          " Automatska indentacija
+set cursorline          " Isticanje trenutne linije
+set cursorcolumn        " Isticanje trenutnog stupca
+set encoding=utf-8      " Postavlja encoding na UTF-8
+set showmatch
+
+" === Vim Interface Enhancements ===
+set termguicolors
+set background=dark     " Tamna tema
+colorscheme iceberg
+
+" postavljanje <Leader>
+let mapleader = " "
+let maplocalleader = " "
+
+" === LSP & AUTOCOMPLETE (Coc.nvim) ===
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+nnoremap <silent> K :call CocActionAsync('doHover')<CR>
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gr <Plug>(coc-references)
+
+" === ALE - LINTER I FORMATIRANJE ===
+let g:ale_fixers = {
+\   'python': ['black'],
+\   'cpp': ['clang-format'],
+\   'vue': ['prettier'],
+\   'javascript': ['prettier'],
+\}
+let g:ale_linters = {
+\   'python': ['flake8'],
+\   'cpp': ['clangd'],
+\   'vue': ['eslint'],
+\}
+let g:ale_fix_on_save = 1
+
+" === NAVIGACIJA ===
+nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-p> :Files<CR>
+nnoremap <Leader>g :GFiles<CR>
+nnoremap <Leader>/ :BLines<CR>
+nnoremap <Leader>h :GitGutterToggle<CR>
+
+" === RANGER (File Manager) ===
+let g:ranger_map_keys = 0
+nnoremap <silent> <Leader>r :Ranger<CR>
+
+" === DEBUGGING (vimspector) ===
+nnoremap <Leader>d :call vimspector#Launch()<CR>
+nnoremap <Leader>b :call vimspector#ToggleBreakpoint()<CR>
+nnoremap <Leader>c :call vimspector#Continue()<CR>
+
+" Split navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" no backup files
+set nobackup       "no backup files
+set nowritebackup  "only in case you don't want a backup file while editing
+set noswapfile     "no swap files
+
+"airline tabs
+let g:airline#extensions#tabline#enabled = 1
+
+
+" === POKRETANJE KODA NA <F5> ===
+nnoremap <F5> :call RunCode()<CR>
+
+function! RunCode()
+    exec "w"    "spremi promjene
+    exec "!clear"  " Očisti ekran prije izvršavanja
+    if &filetype == 'python'
+        exec "!clear"  " Očisti ekran prije izvršavanja
+        exec "!python %"
+    elseif &filetype == 'cpp'
+        exec "!g++ % -o %< && ./%<"
+    elseif &filetype == 'vue' || &filetype == 'javascript'
+        exec "!node %"
+    else
+        echo "Nepodržan jezik za izvršavanje"
+    endif
+endfunction
+
+
+" Start-Stop LiveServer
+nmap <F2> :StartBrowserSync <CR>
+nmap <F3> :KillBrowserSync <CR>

@@ -45,6 +45,7 @@ Plug 'francoiscabrol/ranger.vim' " Terminalski file manager unutar Vim-a
 Plug 'tpope/vim-fugitive' " Napredna Git integracija
 
 " === Poboljšanja za VIM interface ===
+Plug 'mhinz/vim-startify'      " Lijepa početna stranica
 Plug 'vim-airline/vim-airline' " Napredna statusna traka
 Plug 'vim-airline/vim-airline-themes' " Tematski dodaci za airline
 call plug#end()
@@ -76,11 +77,13 @@ autocmd BufWritePre *.py call CocAction('format')
 autocmd BufWritePre *.hs call CocAction('format')
 
 " Key mappings for coc.nvim
+nnoremap <silent> K :call CocActionAsync('doHover')<CR>
 nmap <Leader>cd <Plug>(coc-definition)  " Jump to definition
 nmap <Leader>cr <Plug>(coc-rename)      " Rename symbol
 nmap <Leader>cf <Plug>(coc-format)      " Manual format
 " <Enter> for trigger
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+inoremap <silent><expr> <Tab> coc#pum#visible() ? coc#pum#confirm() : "\<Tab>"
 
 " Run program based on file type
 autocmd filetype * nnoremap <F5> <Esc>:w<CR>:call CocActionAsync('format', function('RunCode'))<CR>

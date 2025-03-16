@@ -157,13 +157,13 @@ let b:ale_python_auto_virtualenv = 1
 
 " Postavljanje fixera za različite jezike
 let g:ale_fixers = {
-      \ '*': ['remove_trailing_lines', 'trim_whitespace'], " Općeniti fixeri za sve
-      \ 'python': ['black', 'isort'],                      " Python koristi Black i isort
-      \ 'javascript': ['prettier', 'eslint'],             " JavaScript koristi Prettier i ESLint
-      \ 'css': ['prettier'],                              " CSS formatira Prettier
-      \ 'html': ['prettier', 'html-beautify'],            " HTML formatira Prettier i html-beautify
-      \ 'cpp': ['clang-format'],                          " C++ koristi Clang-Format
-      \ 'vue': ['prettier', 'eslint']                    " Vue koristi Prettier i ESLint
+      \ '*': ['remove_trailing_lines', 'trim_whitespace'], 
+      \ 'python': ['black', 'isort'],                      
+      \ 'javascript': ['prettier', 'eslint'],             
+      \ 'css': ['prettier'],                              
+      \ 'html': ['prettier', 'html-beautify'],            
+      \ 'cpp': ['clang-format'],                         
+      \ 'vue': ['prettier', 'eslint']                    
       \ }
 
 " Omogućavanje automatskog popravljanja prilikom spremanja
