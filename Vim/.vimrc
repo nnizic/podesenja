@@ -72,8 +72,8 @@ let g:coc_global_extensions = [
 autocmd BufWritePre *.js,*.ts,*.vue :CocCommand eslint.executeAutofix | call CocAction('format')
 autocmd BufWritePre *.cpp,*.h,*.c call CocAction('format')
 autocmd BufWritePre *.html,*.css,*.json,*.md call CocAction('format')
-autocmd BufWritePre *.py :CocCommand python.sortImports
 autocmd BufWritePre *.py call CocAction('format')
+autocmd BufWritePre *.py :CocCommand python.sortImports
 autocmd BufWritePre *.hs call CocAction('format')
 
 " Key mappings for coc.nvim
