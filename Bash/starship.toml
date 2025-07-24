@@ -1,0 +1,56 @@
+format = """
+$username$hostname$python$directory$git_branch$git_status$time
+$character
+"""
+
+
+[username]
+style_user = "bold yellow"
+show_always = true
+format = "💻 [$user]($style)"
+
+[hostname]
+ssh_only = false
+format = "@[$hostname](bold blue) "
+
+[directory]
+style = "bold green"
+format = "📁 [$path]($style) "
+
+
+[time]
+disabled = false
+format = "🕒 [$time](dimmed white) "
+time_format = "%H:%M"
+utc_time_offset = "local"
+
+[character]
+success_symbol = "[\\$](bold white)"
+error_symbol = "[\\$](bold red)"
+format = "$symbol "
+
+[python]
+format = '[🐍 $virtualenv]($style) '
+style = 'bold purple'
+detect_extensions = []
+detect_files = []
+detect_folders = []
+
+[git_branch]
+symbol = "🌱 "
+format = "[$symbol$branch]($style) "
+style = "bold purple"
+
+[git_status]
+format = "[$all_status$ahead_behind]($style) "
+style = "dimmed red"
+conflicted = "⚔️ "
+ahead = "⇡${count} "
+behind = "⇣${count} "
+diverged = "⇕⇡${ahead_count}⇣${behind_count} "
+untracked = "🛤️ ${count} "
+stashed = "📦 ${count} "
+modified = "📝 ${count} "
+staged = "➕ ${count} "
+renamed = "🔁 ${count} "
+deleted = "❌ ${count} "
