@@ -48,6 +48,7 @@ Plug 'tpope/vim-fugitive' " Napredna Git integracija
 Plug 'mhinz/vim-startify'      " Lijepa početna stranica
 Plug 'vim-airline/vim-airline' " Napredna statusna traka
 Plug 'vim-airline/vim-airline-themes' " Tematski dodaci za airline
+Plug 'lervag/vimtex' " Za rad sa Latexom
 call plug#end()
 
 " postavljanje <Leader>
@@ -128,6 +129,15 @@ function! CloseBuffer()
     endif
 endfunction
 
+" Latex podrška:
+let g:vimtex_view_method = 'zathura'  " ili 'skim' na macOS, 'okular', 'mupdf', itd.
+let g:vimtex_compiler_method = 'latexmk'
+
+" Automatsko otvaranje PDF pregledača
+let g:vimtex_view_automatic = 1
+
+" Ne otvaraj PDF odmah ako ga ručno pokrećeš
+let g:vimtex_view_use_temp_files = 0
 
 
 
@@ -168,7 +178,9 @@ set shiftwidth=4
 set cursorline
 set cursorcolumn
 set showmatch
-" Provides tab-completion for all file-related tasks
+" prelazak među bufferima bez spremanja:
+set hidden
+"Provides tab-completion for all file-related tasks
 " fuzzyfind
 set path+=**
 " Display all matching files when tabcomplete
