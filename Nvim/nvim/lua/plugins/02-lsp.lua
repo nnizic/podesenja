@@ -3,8 +3,8 @@ return {
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPre", "BufNewFile" }, -- lazy load LSP
 		dependencies = {
-			{ "williamboman/mason.nvim", lazy = false }, -- Mason učitava se odmah
-			"williamboman/mason-lspconfig.nvim",
+			{ "mason-org/mason.nvim", lazy = false }, -- Mason učitava se odmah
+			"mason-org/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()

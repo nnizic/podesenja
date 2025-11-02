@@ -1,11 +1,11 @@
 return {
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		lazy = false, -- odmah load, :Mason komanda dostupna odmah
 		opts = {},
 	},
 	{
-		"williamboman/mason-lspconfig.nvim",
+		"mason-org/mason-lspconfig.nvim",
 		lazy = false, -- odmah load, veže se na mason.nvim
 		dependencies = { "mason.nvim" },
 		config = function()
